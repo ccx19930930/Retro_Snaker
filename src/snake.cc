@@ -1,5 +1,4 @@
- ///
- /// @file    snake.cc
+ /// /// @file    snake.cc
  /// @author  marrs(chenchengxi993@gmail.com)
  /// @date    2017-07-15 11:02:32
  ///
@@ -60,30 +59,50 @@ int Snake::add_new_node(Coordinate coordinate_new, char char_icon_new)
 	
 	_snake.coordinate_cur = coordinate_new;
 	_snake.char_icon = char_icon_new;
+	++_snake.int_size;
 
 	return 0;
 }
 
-int Snake::forward()
+Snake_Base* Snake::forward()
 {
+	Snake_Base* pReturn = NULL;
+	if(_snake.int_size > 1)
+	{
+		add_new_node(_snake.coordinate_cur, _snake.char_icon);		
+		Snake_Base* pCur = _snake.pNext;
+		while(pCur->pNext->pNext)
+		{
+			pCur = pCur->pNext;
+		}
+		pReturn = pCur->pNext;
+		pCur->pNext = NULL;	
+
+	}
+	else
+	{
+		pReturn = new Snake_Base;
+		pReturn->coordinate_cur = _snake.coordinate_cur;
+	}
+	
 	switch(_snake.int_direction)
 	{
 		case EN_DIR_UP:
-			_snake.coordinate_cur.int_y -= 1;
-			break;
-		case EN_DIR_DOWN:	
-			_snake.coordinate_cur.int_y += 1;
-			break;
-		case EN_DIR_LEFT:	
 			_snake.coordinate_cur.int_x -= 1;
 			break;
-		case EN_DIR_RIGHT:	
+		case EN_DIR_DOWN:	
 			_snake.coordinate_cur.int_x += 1;
+			break;
+		case EN_DIR_LEFT:	
+			_snake.coordinate_cur.int_y -= 1;
+			break;
+		case EN_DIR_RIGHT:	
+			_snake.coordinate_cur.int_y += 1;
 			break;
 		default:break;
 
 	}
-	return _snake.int_direction;
+	return pReturn;
 
 }
 

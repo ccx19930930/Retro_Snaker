@@ -81,24 +81,14 @@ int Game::forward()
 		return int_ret;
 	}
 
-	Coordinate coordinate_pre = _snake.get_snake_head()->coordinate_cur;
-	Coordinate coordinate_tmp;
-
+	Snake_Base* snake_tmp = _snake.forward();
+	
+	
+	_map.reset_point(snake_tmp->coordinate_cur.int_x, snake_tmp->coordinate_cur.int_y);
+	delete snake_tmp;
 	MapBase map_tmp;
 	map_tmp.int_type = EN_MAP_SNAKE;
 	map_tmp.char_icon = _snake.get_snake_head()->char_icon;
-
-	Snake_Base* pSnake = _snake.get_snake_base(); 
-	while(pSnake)
-	{
-		coordinate_tmp = pSnake->coordinate_cur;
-		pSnake->coordinate_cur = coordinate_pre;
-		coordinate_pre = coordinate_tmp;
-
-	}
-
-	_snake.forward();
-	_map.reset_point(coordinate_pre.int_x, coordinate_pre.int_y);
 	_map.set_map_val(_snake.get_snake_head()->coordinate_cur.int_x,
 				_snake.get_snake_head()->coordinate_cur.int_y,
 				map_tmp);

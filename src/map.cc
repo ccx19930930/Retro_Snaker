@@ -24,7 +24,7 @@ Map::Map(int int_x, int int_y)
 
 Map::~Map()
 {
-	//do nothing
+	delete [] _p_map;
 }
 
 int Map::init()

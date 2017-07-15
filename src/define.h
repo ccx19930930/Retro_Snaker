@@ -51,10 +51,11 @@ typedef struct Snake_Head
 
 enum MapStatus
 {
-	EN_MAP_EMPTY = 0,
-	EN_MAP_WALL,
-	EN_MAP_NEW_NODE,
-	EN_MAP_SNAKE,
+	EN_MAP_EMPTY = 0,  //空地
+	EN_MAP_WALL,       //边界
+	EN_MAP_NEW_NODE,   //新节点
+	EN_MAP_SNAKE,      //蛇
+
 };
 
 struct MapBase
