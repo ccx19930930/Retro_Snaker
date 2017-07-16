@@ -21,9 +21,12 @@ class Snake
 		int init(char char_icon, int int_direction, int int_size, Coordinate coordinate);
 		int change_direction(int int_direction);	
 		int add_new_node(Coordinate coordinate_new, char char_icon_new);
+		int add_new_node(char char_icon_new);
+		Snake_Base* del_tail_node();
 		Snake_Base* forward();
 		Snake_Base* get_snake_base();
 		SnakeHead* get_snake_head();
+		int get_snake_size();
 
 	private:
 		SnakeHead _snake;

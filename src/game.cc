@@ -12,12 +12,13 @@ namespace marrs{
 int Game::init()
 {
 	Coordinate coordinate = _map.get_map_center_pos();
-	_snake.init('O', EN_DIR_DOWN, 1, coordinate);	
+	_snake.init('O', EN_DIR_DOWN, 5, coordinate);	
 	
 	MapBase map;
 	map.char_icon = 'O';
 	map.int_type = EN_MAP_SNAKE;
 	_map.set_map_val(coordinate.int_x, coordinate.int_y, map);
+
 	_bool_is_need_exit = false;
 
 	reset_random_point();
