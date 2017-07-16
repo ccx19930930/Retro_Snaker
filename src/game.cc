@@ -59,16 +59,36 @@ int Game::refresh_map()
 
 int Game::gen_random_point()
 {
-	while(_random_point.int_x == 0)
+	if(_random_point.int_x * _random_point.int_y)
 	{
-		_random_point.int_x = random(_map.get_x_size());
+		return 0;
 	}
-	while(_random_point.int_x == 0)
+	MapBase map;
+	while(true)
 	{
-		_random_point.int_y = random(_map.get_y_size());
-	}
+		while(_random_point.int_x == 0 || _random_point.int_x == _map.get_x_size() - 1)
+		{
+			_random_point.int_x = random(_map.get_x_size());
+		}
+		while(_random_point.int_y == 0 || _random_point.int_y == _map.get_y_size() - 1)
+		{
+			_random_point.int_y = random(_map.get_y_size());
+		}
+		int int_map_type = _map.get_map_val(_random_point.int_x, _random_point.int_y, map);
+		if (int_map_type == EN_MAP_EMPTY)
+		{
+			map.char_icon = '0';
+			map.int_type = EN_MAP_NEW_NODE;
+			_map.set_map_val(_random_point.int_x, _random_point.int_y, map);
+			break;
+		}else
+		{
+			reset_random_point();
+		}
+	}	
+
 	return 0;
-	
+
 }
 
 int Game::reset_random_point()
@@ -81,14 +101,22 @@ int Game::reset_random_point()
 int Game::forward()
 {
 	int int_ret = check_collision();
-	if(int_ret)
+
+	switch(int_ret)
 	{
-		return int_ret;
+		case EN_COLLISION_NEW_NODE:
+			_snake.add_new_node(_snake.get_snake_head()->char_icon);
+			reset_random_point();
+			break;
+		case EN_COLLISION_DEAD:
+			return EN_COLLISION_DEAD;
+		case EN_COLLISION_NEW_EMPTY:
+		default:break;
+
 	}
 
 	Snake_Base* snake_tmp = _snake.forward();
-	
-	
+
 	_map.reset_point(snake_tmp->coordinate_cur.int_x, snake_tmp->coordinate_cur.int_y);
 	delete snake_tmp;
 	MapBase map_tmp;
@@ -103,6 +131,20 @@ int Game::forward()
 
 int Game::check_collision()
 {
+	Coordinate coordinate = _snake.get_next_coordinate();
+	MapBase map;
+	int int_map_type = _map.get_map_val(coordinate.int_x, coordinate.int_y, map);
+	switch(int_map_type)
+	{
+		case EN_MAP_WALL:
+		case EN_MAP_SNAKE:
+			return EN_COLLISION_DEAD;
+		case EN_MAP_NEW_NODE:
+			return EN_COLLISION_NEW_NODE;
+		case EN_MAP_EMPTY:
+		default:break;
+
+	}
 
 	return 0;
 }
@@ -150,6 +192,7 @@ int Game::loop()
 {
 	while(!_bool_is_need_exit)
 	{
+		gen_random_point();
 		forward();
 		refresh_map();
 		//sleep(1);

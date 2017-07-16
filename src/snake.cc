@@ -77,6 +77,30 @@ int Snake::add_new_node(Coordinate coordinate_new, char char_icon_new)
 	return 0;
 }
 
+Coordinate Snake::get_next_coordinate()
+{
+	Coordinate coordinate = _snake.coordinate_cur;
+
+	switch(_snake.int_direction)
+	{
+		case EN_DIR_UP:
+			coordinate.int_x -= 1;
+			break;
+		case EN_DIR_DOWN:	
+			coordinate.int_x += 1;
+			break;
+		case EN_DIR_LEFT:	
+			coordinate.int_y -= 1;
+			break;
+		case EN_DIR_RIGHT:	
+			coordinate.int_y += 1;
+			break;
+		default:break;
+
+	}
+	return coordinate;
+}
+
 Snake_Base* Snake::del_tail_node()
 {
 	Snake_Base* pPre;
@@ -116,24 +140,7 @@ Snake_Base* Snake::forward()
 		pReturn = new Snake_Base;
 		pReturn->coordinate_cur = _snake.coordinate_cur;
 	}
-
-	switch(_snake.int_direction)
-	{
-		case EN_DIR_UP:
-			_snake.coordinate_cur.int_x -= 1;
-			break;
-		case EN_DIR_DOWN:	
-			_snake.coordinate_cur.int_x += 1;
-			break;
-		case EN_DIR_LEFT:	
-			_snake.coordinate_cur.int_y -= 1;
-			break;
-		case EN_DIR_RIGHT:	
-			_snake.coordinate_cur.int_y += 1;
-			break;
-		default:break;
-
-	}
+	_snake.coordinate_cur = get_next_coordinate();
 	return pReturn;
 
 }

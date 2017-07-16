@@ -69,6 +69,13 @@ struct MapBase
 	char char_icon;
 };
 
+enum Collision
+{
+	EN_COLLISION_NEW_EMPTY = 0,
+	EN_COLLISION_NEW_NODE,
+	EN_COLLISION_DEAD,
+};
+
 }
 
 #endif

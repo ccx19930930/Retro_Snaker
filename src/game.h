@@ -18,6 +18,7 @@ class Game
 		int init();	
 		int output_map();	
 		int refresh_map();
+
 		int gen_random_point();
 		int reset_random_point();
 		
