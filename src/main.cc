@@ -11,14 +11,7 @@ int main()
 {
 	Game game;
 	game.init();
-	for(int int_idx = 0; int_idx < 5; ++int_idx)
-	{
-		game.forward();	
-		game.refresh_map();
-		sleep(1);
-	}
-	
-
+	game.loop();
 
 
 	return 0;

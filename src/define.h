@@ -8,9 +8,14 @@
 #ifndef __DEFINE_H__
 #define __DEFINE_H__
 
+#include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <termios.h>
+
+#include <pthread.h>
+
 #include <iostream>
 
 #define random(x) (rand()%x)

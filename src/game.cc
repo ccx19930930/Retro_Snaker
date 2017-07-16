@@ -18,10 +18,11 @@ int Game::init()
 	map.char_icon = 'O';
 	map.int_type = EN_MAP_SNAKE;
 	_map.set_map_val(coordinate.int_x, coordinate.int_y, map);
+	_bool_is_need_exit = false;
 
 	reset_random_point();
-
 	output_map();
+
 	return 0;
 
 }
@@ -100,6 +101,58 @@ int Game::check_collision()
 {
 
 	return 0;
+}
+
+int Game::input()
+{
+	struct termios stored_settings;  
+	struct termios new_settings;  
+	tcgetattr (0, &stored_settings);  
+	new_settings = stored_settings;  
+	new_settings.c_lflag &= (~ICANON);  
+	new_settings.c_cc[VTIME] = 0;  
+	new_settings.c_cc[VMIN] = 1;  
+	tcsetattr (0, TCSANOW, &new_settings);  
+	char char_input = getchar();
+	putchar('\b');
+	tcsetattr (0, TCSANOW, &stored_settings);
+	switch(char_input)
+	{
+		case 'w':return EN_DIR_UP;
+		case 's':return EN_DIR_DOWN;
+		case 'a':return EN_DIR_LEFT;
+		case 'd':return EN_DIR_RIGHT;
+		default:break;
+
+	}
+
+	return -1;
+}
+
+int Game::change_direction()
+{
+	int int_new_direction = input();
+	if (int_new_direction == -1)
+	{
+		_bool_is_need_exit = true;
+	}else
+	{
+		_snake.change_direction(int_new_direction);
+	}
+	return 0;
+}
+
+int Game::loop()
+{
+	while(!_bool_is_need_exit)
+	{
+		change_direction();
+		forward();
+		refresh_map();
+
+	}
+	return 0;	
+
 }
 
 }

@@ -24,10 +24,15 @@ class Game
 		int forward();
 		int check_collision();
 
+		int input();
+		int change_direction();
+		int loop();
+
 	private:
 		Map _map;
 		Snake _snake;	
 		Coordinate _random_point;
+		bool _bool_is_need_exit;
 };
  
 }
