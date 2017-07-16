@@ -24,6 +24,9 @@ int Game::init()
 	reset_random_point();
 	output_map();
 
+	::pthread_t pthid;
+	::pthread_create(&pthid, NULL, Game::pthread_func, this);
+
 	return 0;
 
 }
@@ -147,13 +150,22 @@ int Game::loop()
 {
 	while(!_bool_is_need_exit)
 	{
-		change_direction();
 		forward();
 		refresh_map();
-
+		//sleep(1);
+		usleep(100000);
 	}
 	return 0;	
 
+}
+
+void* Game::pthread_func(void* p_args)
+{
+	Game* game_tmp = static_cast<Game*> (p_args);
+	while(!game_tmp->_bool_is_need_exit)
+	{
+		game_tmp->change_direction();
+	}
 }
 
 }

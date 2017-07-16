@@ -28,6 +28,8 @@ class Game
 		int change_direction();
 		int loop();
 
+		static void* pthread_func(void* p_args);
+
 	private:
 		Map _map;
 		Snake _snake;	

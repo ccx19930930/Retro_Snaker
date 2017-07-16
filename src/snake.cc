@@ -46,18 +46,9 @@ int Snake::add_new_node(char char_icon_new)
 {
 	Snake_Base* pNode = new Snake_Base;
 	pNode->char_icon = char_icon_new;
-	pNode->pNext = NULL;
-	if (_snake.int_size == 1)
-	{
-		_snake.pNext = pNode;
-	}else{
-		Snake_Base* pPre = _snake.pNext;
-		while(pPre->pNext)
-		{
-			pPre = pPre->pNext;
-		}
-		pPre->pNext = pNode;
-	}
+	pNode->pNext = _snake.pNext;
+	_snake.pNext = pNode;	
+	
 	++_snake.int_size;
 
 	return 0;
