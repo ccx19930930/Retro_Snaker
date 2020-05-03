@@ -1,11 +1,11 @@
 INC_DIR:=./src/*.h
 SRCS:=$(wildcard ./src/*cc)
 OBJS:= $(patsubst %.cc, %.o, $(SRCS))
-LIBS:= 
+LIBS:= -lpthread -ljsoncpp
 
 CXX:=g++
 
-CXXFLAGS:= -w -g -std=c++11 -lpthread -ljson $(addprefix -I, $(INC_DIR)) $(LIBS)
+CXXFLAGS:= -w -g -std=c++11 $(addprefix -I, $(INC_DIR)) $(LIBS)
 
 EXE:=./bin/game.exe
 
